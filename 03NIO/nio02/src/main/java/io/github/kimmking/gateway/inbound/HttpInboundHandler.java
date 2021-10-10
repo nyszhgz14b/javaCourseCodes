@@ -21,14 +21,14 @@ public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
     //httpclient4
     //private HttpOutboundHandler handler;
     //okhttp3
-    //private OkhttpOutboundHandler handler;
+    private OkhttpOutboundHandler handler;
     //netty
-    private NettyHandler handler;
+    //private NettyHandler handler;
     private HttpRequestFilter filter = new HeaderHttpRequestFilter();
     
     public HttpInboundHandler(List<String> proxyServer) {
         this.proxyServer = proxyServer;
-        this.handler = new NettyHandler(this.proxyServer);
+        this.handler = new OkhttpOutboundHandler(this.proxyServer);
     }
     
     @Override
