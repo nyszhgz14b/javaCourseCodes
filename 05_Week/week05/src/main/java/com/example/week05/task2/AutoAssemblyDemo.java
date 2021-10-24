@@ -11,7 +11,7 @@ public class AutoAssemblyDemo {
        /* StudentService studentService = (StudentService) context.getBean("studentService");
         System.out.println(studentService.getStudent());*/
 
-        School school = (School) context.getBean("school");
+        School1 school = (School1) context.getBean("school1");
         System.out.println(school);
     }
 }

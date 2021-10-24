@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ToString
-public class School {
+public class School1 {
     private int id;
     private String name;
 }

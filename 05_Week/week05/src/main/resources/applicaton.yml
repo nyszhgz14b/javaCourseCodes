@@ -11,8 +11,3 @@ spring:
       maximum-pool-size: 20
       connection-timeout: 3000
       connection-test-query: select 1
-schoole:
-  isopen: true
-  name: test
-  city: test
-  towns: test
