@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: "jdbc:mysql://localhost:3306/test?characterEncoding=utf-8&useSSL=false"
+    username: root
+    password: 12345678
+    hikari:
+      pool-name: myHikari
+      auto-commit: true
+      minimum-idle: 5
+      maximum-pool-size: 20
+      connection-timeout: 3000
+      connection-test-query: select 1
+schoole:
+  isopen: true
+  name: test
+  city: test
+  towns: test
