@@ -1,0 +1,29 @@
+sharding:
+    jdbc:
+      datasource:
+        names: ds-master,ds-master-slave
+        ds-master:
+          type: com.alibaba.druid.pool.DruidDataSource
+          driver-class-name: com.mysql.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/mall?rewriteBatchedStatements=true&characterEncoding=utf-8&useSSL=false
+          username: root
+          password: 12345678
+        ds-master-slave:
+          type: com.alibaba.druid.pool.DruidDataSource
+          driver-class-name: com.mysql.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/mall1?rewriteBatchedStatements=true&characterEncoding=utf-8&useSSL=false
+          username: root
+          password: 12345678
+      config:
+        masterslave:
+          name: ms
+          master-data-source-name: ds-master
+          slave-data-source-names: ds-master-slave
+        props:
+          sql:
+            show: true
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true
+  mapper-locations: mapper/*.xml

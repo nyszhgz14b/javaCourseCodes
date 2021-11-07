@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.task9.dao.UserDao">
+
+    <resultMap id="userMap" type="com.example.task9.entity.UserInfo">
+        <id column="id" property="id"  ></id>
+        <result column="user_name" property="userName" ></result>
+        <result column="cert_no" property="certNo" ></result>
+        <result column="name" property="name" ></result>
+        <result column="sex" property="sex" ></result>
+        <result column="phone" property="phone" ></result>
+        <result column="create_time" property="createTime" ></result>
+        <result column="update_time" property="updateTime" ></result>
+        <result column="reamrk" property="reamrk" ></result>
+        <result column="resver1" property="resver1" ></result>
+        <result column="resver2" property="resver2" ></result>
+    </resultMap>
+    <insert id="addUser" parameterType="com.example.task9.entity.UserInfo">
+        insert into t_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="null!=id">
+                id,
+            </if>
+            <if test="null!=userName">
+                user_name,
+            </if>
+            <if test="null!=certNo">
+                cert_no,
+            </if>
+            <if test="null!=name">
+                name,
+            </if>
+            <if test="null!=sex">
+                sex,
+            </if>
+            <if test="null!=passwd">
+                passwd,
+            </if>
+            <if test="null!=phone">
+                phone,
+            </if>
+            <if test="null!=createTime">
+                create_time,
+            </if>
+            <if test="null!=updateTime">
+                update_time,
+            </if>
+            <if test="null!=reamrk">
+                reamrk,
+            </if>
+            <if test="null!=resver1">
+                resver1,
+            </if>
+            <if test="null!=resver2">
+                resver2,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="null!=id">
+                #{id},
+            </if>
+            <if test="null!=userName">
+                #{userName},
+            </if>
+            <if test="null!=certNo">
+                #{certNo},
+            </if>
+            <if test="null!=name">
+                #{name},
+            </if>
+            <if test="null!=sex">
+                #{sex},
+            </if>
+            <if test="null!=passwd">
+                #{passwd},
+            </if>
+            <if test="null!=phone">
+                #{phone},
+            </if>
+            <if test="null!=createTime">
+                #{createTime},
+            </if>
+            <if test="null!=updateTime">
+                #{updateTime},
+            </if>
+            <if test="null!=reamrk">
+                #{reamrk},
+            </if>
+            <if test="null!=resver1">
+                #{resver1},
+            </if>
+            <if test="null!=resver2">
+                #{resver2},
+            </if>
+        </trim>
+    </insert>
+    <select id="findAll" resultMap="userMap">
+        SELECT *
+        FROM t_user
+    </select>
+</mapper>
