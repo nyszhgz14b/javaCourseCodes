@@ -1,0 +1,77 @@
+#配置数据源
+spring:
+  shardingsphere:
+    datasource:
+      names: ds0,ds1
+
+      ds0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3308/mall_ds_0?rewriteBatchedStatements=true&characterEncoding=utf-8&useSSL=false
+        username: root
+        password:
+      ds1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3308/mall_ds_1?rewriteBatchedStatements=true&characterEncoding=utf-8&useSSL=false
+        username: root
+        password:
+    rules:
+      sharding:
+        tables:
+            t_user:
+              actual-data-nodes: ds$->{0..1}.t_user
+              database-strategy:   #分库策略
+                standard:
+                  sharding-column: id
+                  sharding-algorithm-name: sharding-pass-database
+              key-generator:
+                column: id
+                type: SNOWFLAKE
+                props:
+                  worker:
+                    id: 123
+            t_order:
+              actual-data-nodes: ds$->{0..1}.t_order_$->{0..15}
+              database-strategy:   #分库策略
+                standard:
+                  sharding-column: user_id
+                  sharding-algorithm-name: sharding-pass-database-by-userid
+                  #分表策略
+              table-strategy:
+                standard:
+                  #根据pass_month分表
+                  sharding-column: id
+                  sharding-algorithm-name: sharding-pass-by-orderId
+              key-generator:
+                column: id
+                type: SNOWFLAKE
+                props:
+                  worker:
+                    id: 123
+          #分库或者分表算法配置
+        arding-algorithms:
+           #分库策略配置
+           sharding-pass-database:
+             type: INLINE
+             props:
+               algorithm-expression: ds$->{id % 2}
+               #分库策略配置
+           sharding-pass-database-by-userid:
+             type: INLINE
+             props:
+               algorithm-expression: ds$->{user_id % 2}
+           #分表策略配置
+           sharding-pass-by-orderId:
+             type: INLINE
+             props:
+               algorithm-expression: t_order_$->{id % 15}
+    props:
+      sql-show: true
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true
+  mapper-locations: mapper/*.xml
+logging:
+  config: classpath:logbackSpring.xml
