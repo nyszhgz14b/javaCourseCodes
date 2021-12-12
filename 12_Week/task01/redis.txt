@@ -1,0 +1,32 @@
+﻿docker 配置主从复制
+1.查看本地镜像列表
+docker images
+2.运行镜像
+docker run --name redis-6379 -p 6379:6379 -d redis:latest  redis-server
+docker run --name redis-6380 -p 6380:6379 -d redis:latest  redis-server
+docker run --name redis-6381 -p 6381:6379 -d redis:latest  redis-server
+3.查看运行的镜像
+docker ps 
+4.查看容器内网地址
+docker inspect containerid(容器ID)
+3个redis的内网ip地址为
+redis-6379: 172.17.0.4:6379
+redis-6380: 172.17.0.5:6380
+redis-6381: 172.17.0.6:6381
+进入到容器内部
+docker exec -it containerid redis-cli
+查看当前redis的角色(主master还是从slave)
+info replication
+设置从接点
+redis-6380 redis-6381 分别执行下面命令
+slaveof 172.17.0.4 6379
+再重新使用info replication查看是否设置成功
+
+搭建redis sentinet集群
+docker run -itd --name redis-mysentinel -p 6382:6379 -v d:/redis/mysentinel.conf:/usr/local/etc/redis/sentinel.conf  redis:latest redis-sentinel /usr/local/etc/redis/sentinel.conf
+docker run -itd --name redis-mysentinel -p 6383:6379 -v d:/redis/mysentinel.conf:/usr/local/etc/redis/sentinel.conf  redis:latest redis-sentinel /usr/local/etc/redis/sentinel.conf
+docker run -itd --name redis-mysentinel -p 6384:6379 -v d:/redis/mysentinel.conf:/usr/local/etc/redis/sentinel.conf  redis:latest redis-sentinel /usr/local/etc/redis/sentinel.conf
+模拟故障转移
+docker stop redis-6389
+检查是否转移
+sentinel master mymaster
