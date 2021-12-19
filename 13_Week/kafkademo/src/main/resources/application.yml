@@ -1,0 +1,12 @@
+spring:
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092,127.0.0.1:9203,127.0.0.1:9204
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: test
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+server:
+  port: 8888
